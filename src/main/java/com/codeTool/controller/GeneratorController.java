@@ -1,5 +1,6 @@
 package com.codeTool.controller;
 
+import com.codeTool.error.ReturnValue;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GeneratorController {
     @ApiOperation("生成代码")
     @PostMapping(value = "/{tableName}/{type}")
-    public ResponseEntity<Object> generatorCode(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response){
+    public ReturnValue<Object> generatorCode(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response){
 //        switch (type){
 //            // 生成代码
 //            case 0: generatorService.generator(genConfigService.find(tableName), generatorService.getColumns(tableName));
@@ -28,6 +29,6 @@ public class GeneratorController {
 //                break;
 //            default: throw new BadRequestException("没有这个选项");
 //        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ReturnValue<>(HttpStatus.OK);
     }
 }
