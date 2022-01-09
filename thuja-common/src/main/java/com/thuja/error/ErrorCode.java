@@ -1,4 +1,4 @@
-package com.codeTool.error;
+package com.thuja.error;
 
 /**
  * @author: Ansen

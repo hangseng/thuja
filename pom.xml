@@ -4,9 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.codeTools</groupId>
-    <artifactId>code-generator-java</artifactId>
+    <groupId>com.thuja</groupId>
+    <artifactId>thuja</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>thuja-common</module>
+        <module>thuja-logging</module>
+        <module>thuja-system</module>
+        <module>thuja-tools</module>
+        <module>thuja-generator</module>
+    </modules>
     <!-- 项目属性:子模块不能引用父项目的properties变量 -->
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -1,19 +1,14 @@
-package com.codeTool.controller;
+package com.thuja.controller;
 
-import com.codeTool.error.ReturnValue;
+import com.thuja.error.ReturnValue;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * @author: Ansen
- * @create: 2022-01-09 11:23
- **/
 public class GeneratorController {
     @ApiOperation("生成代码")
     @PostMapping(value = "/{tableName}/{type}")

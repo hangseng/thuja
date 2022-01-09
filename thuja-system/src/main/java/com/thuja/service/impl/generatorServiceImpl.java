@@ -1,4 +1,4 @@
-package com.codeTool.service.impl;
+package com.thuja.service.impl;
 
 import com.codeTool.service.GeneratorService;
 import lombok.extern.slf4j.Slf4j;

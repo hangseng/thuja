@@ -1,4 +1,4 @@
-package com.codeTool.model;
+package com.thuja.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;

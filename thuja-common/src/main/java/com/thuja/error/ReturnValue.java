@@ -1,4 +1,4 @@
-package com.codeTool.error;
+package com.thuja.error;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

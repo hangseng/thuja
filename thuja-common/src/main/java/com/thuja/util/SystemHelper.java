@@ -1,4 +1,4 @@
-package com.codeTool.util;
+package com.thuja.util;
 
 import lombok.Data;
 
