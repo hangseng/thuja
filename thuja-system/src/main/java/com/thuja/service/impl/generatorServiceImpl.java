@@ -1,6 +1,6 @@
 package com.thuja.service.impl;
 
-import com.codeTool.service.GeneratorService;
+import com.thuja.service.GeneratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
