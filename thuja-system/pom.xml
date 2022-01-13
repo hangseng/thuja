@@ -33,6 +33,11 @@
             <artifactId>thuja-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.thuja</groupId>
+            <artifactId>thuja-generator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

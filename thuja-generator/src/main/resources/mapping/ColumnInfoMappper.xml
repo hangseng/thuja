@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thuja.mapper.ColumnInfoMappper" >
+    <resultMap id="ColumnInfoMap" type="com.thuja.model.ColumnInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="tableName" property="tableName" jdbcType="VARCHAR"/>
+        <result column="columnName" property="columnName" jdbcType="VARCHAR"/>
+        <result column="columnType" property="columnType" jdbcType="VARCHAR"/>
+        <result column="keyType" property="keyType" jdbcType="VARCHAR"/>
+        <result column="extra" property="extra" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="notNull" property="notNull" jdbcType="BOOLEAN"/>
+        <result column="listShow" property="listShow" jdbcType="BOOLEAN"/>
+        <result column="formShow" property="formShow" jdbcType="BOOLEAN"/>
+    </resultMap>
+    <select id="findByTableName" resultMap="ColumnInfoMap">
+        select
+        TABLE_NAME as tableName,COLUMN_NAME as columnName,COLUMN_TYPE as columnType,
+        COLUMN_KEY as keyType,EXTRA as extra,COLUMN_COMMENT as remark,if(IS_NULLABLE='YES',false,true) as notNull,
+        as listShow,as formShow
+        from information_schema.columns
+        <where>
+            table_schema='thuja'
+            <if test="tableName != null" >
+                and TABLE_NAME = #{tableName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

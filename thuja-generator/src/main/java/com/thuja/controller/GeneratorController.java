@@ -31,7 +31,7 @@ public class GeneratorController {
 
     @ApiOperation("生成代码")
     @PostMapping(value = "/{tableName}/{type}")
-    public ReturnValue<Object> generatorCode(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response){
+    public ReturnValue<String> generatorCode(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response){
         switch (type){
             // 生成代码
             case 0: generatorService.generator(genConfigService.find(tableName), generatorService.getColumns(tableName));
@@ -39,10 +39,10 @@ public class GeneratorController {
             // 预览
 //            case 1: return generatorService.preview(genConfigService.find(tableName), generatorService.getColumns(tableName));
             // 打包
-            case 2: generatorService.download(genConfigService.find(tableName), generatorService.getColumns(tableName), request, response);
-                break;
-//            default: throw new BadRequestException("没有这个选项");
+//            case 2: generatorService.download(genConfigService.find(tableName), generatorService.getColumns(tableName), request, response);
+//                break;
+            default: throw new RuntimeException("没有这个选项");
         }
-        return new ReturnValue<>(HttpStatus.OK);
+        return new ReturnValue<>("");
     }
 }

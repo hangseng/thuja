@@ -23,7 +23,7 @@ import java.util.Map;
  **/
 public class GenUtil {
 
-    private static final String TIMESTAMP = "Timestamp";
+    private static final String DATE = "Date";
 
     private static final String BIGDECIMAL = "BigDecimal";
 
@@ -37,14 +37,12 @@ public class GenUtil {
      */
     private static List<String> getAdminTemplateNames() {
         List<String> templateNames = new ArrayList<>();
-        templateNames.add("Entity");
-        templateNames.add("Dto");
+        templateNames.add("Model");
         templateNames.add("Mapper");
+        templateNames.add("XmlMapper");
         templateNames.add("Controller");
-        templateNames.add("QueryCriteria");
         templateNames.add("Service");
         templateNames.add("ServiceImpl");
-        templateNames.add("Repository");
         return templateNames;
     }
 
@@ -59,8 +57,8 @@ public class GenUtil {
             packagePath += genConfig.getPack().replace(".", File.separator) + File.separator;
         }
 
-        if ("Entity".equals(templateName)) {
-            return packagePath + "domain" + File.separator + className + ".java";
+        if ("Model".equals(templateName)) {
+            return packagePath + "model" + File.separator + className + ".java";
         }
 
         if ("Controller".equals(templateName)) {
@@ -75,21 +73,15 @@ public class GenUtil {
             return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
 
-        if ("Dto".equals(templateName)) {
-            return packagePath + "service" + File.separator + "dto" + File.separator + className + "Dto.java";
-        }
-
-        if ("QueryCriteria".equals(templateName)) {
-            return packagePath + "service" + File.separator + "dto" + File.separator + className + "QueryCriteria.java";
-        }
-
         if ("Mapper".equals(templateName)) {
             return packagePath + "service" + File.separator + "mapstruct" + File.separator + className + "Mapper.java";
         }
 
-        if ("Repository".equals(templateName)) {
-            return packagePath + "repository" + File.separator + className + "Repository.java";
+        if ("XmlMapper".equals(templateName)) {
+            return projectPath + File.separator + "src" + File.separator + "main"+ File.separator + "resources" +
+                    File.separator + "mapping" + File.separator + "className" + "Mapper.xml";
         }
+
 
         return null;
     }
@@ -115,22 +107,6 @@ public class GenUtil {
             genFile(file, template, genMap);
         }
 
-        // 生成前端代码
-//        templates = getFrontTemplateNames();
-//        for (String templateName : templates) {
-//            Template template = engine.getTemplate("generator/front/" + templateName + ".ftl");
-//            String filePath = getFrontFilePath(templateName, genConfig.getApiPath(), genConfig.getPath(), genMap.get("changeClassName").toString());
-//
-//            assert filePath != null;
-//            File file = new File(filePath);
-//
-//            // 如果非覆盖生成
-//            if (!genConfig.getCover() && FileUtil.exist(file)) {
-//                continue;
-//            }
-//            // 生成代码
-//            genFile(file, template, genMap);
-//        }
     }
 
     private static void genFile(File file, Template template, Map<String, Object> map) throws IOException {
@@ -179,10 +155,10 @@ public class GenUtil {
         genMap.put("className", className);
         // 保存小写开头的类名
         genMap.put("changeClassName", changeClassName);
-        // 存在 Timestamp 字段
-        genMap.put("hasTimestamp", false);
-        // 查询类中存在 Timestamp 字段
-        genMap.put("queryHasTimestamp", false);
+        // 存在 DATE 字段
+        genMap.put("hasDate", false);
+        // 查询类中存在 DATE 字段
+        genMap.put("queryhasDate", false);
         // 存在 BigDecimal 字段
         genMap.put("hasBigDecimal", false);
         // 查询类中存在 BigDecimal 字段
@@ -226,9 +202,9 @@ public class GenUtil {
                 // 存储大写开头的字段名
                 genMap.put("pkCapitalColName", capitalColumnName);
             }
-            // 是否存在 Timestamp 类型的字段
-            if (TIMESTAMP.equals(colType)) {
-                genMap.put("hasTimestamp", true);
+            // 是否存在 DATE 类型的字段
+            if (DATE.equals(colType)) {
+                genMap.put("hasDate", true);
             }
             // 是否存在 BigDecimal 类型的字段
             if (BIGDECIMAL.equals(colType)) {
@@ -277,9 +253,9 @@ public class GenUtil {
                 listMap.put("queryType", column.getQueryType());
                 // 是否存在查询
                 genMap.put("hasQuery", true);
-                if (TIMESTAMP.equals(colType)) {
-                    // 查询中存储 Timestamp 类型
-                    genMap.put("queryHasTimestamp", true);
+                if (DATE.equals(colType)) {
+                    // 查询中存储 DATE 类型
+                    genMap.put("queryhasDate", true);
                 }
                 if (BIGDECIMAL.equals(colType)) {
                     // 查询中存储 BigDecimal 类型

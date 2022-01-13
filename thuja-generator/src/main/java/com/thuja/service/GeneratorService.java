@@ -12,4 +12,7 @@ public interface GeneratorService {
      * @param columns 字段信息
      */
     void generator(GenConfig genConfig, List<ColumnInfo> columns);
+
+
+    List<ColumnInfo> getColumns(String name);
 }
