@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thuja.mapper.GenConfigMapper" >
+    <resultMap id="GenConfigMap" type="com.thuja.model.GenConfig">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="tableName" property="tableName" jdbcType="VARCHAR"/>
+        <result column="apiAlias" property="apiAlias" jdbcType="VARCHAR"/>
+        <result column="pack" property="pack" jdbcType="VARCHAR"/>
+        <result column="moduleName" property="moduleName" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="apiPath" property="apiPath" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="prefix" property="prefix" jdbcType="VARCHAR"/>
+        <result column="cover" property="cover" jdbcType="BOOLEAN"/>
+    </resultMap>
+    <!-- 单表开启二级缓存:配置之后该mapper下的所有的查询语句都会走缓存 -->
+    <cache flushInterval="60000" size="512" readOnly="false" eviction="FIFO" />
+    <sql id="Base_Column_List" >
+        config_id as id,table_name as tableName,api_alias as apiAlias,pack,module_name as moduleName,path,api_path as apiPath,author,prefix,cover
+    </sql>
+    <select id="findByTableName" resultMap="GenConfigMap">
+        select  <include refid="Base_Column_List" />
+        from code_gen_config
+        <where>
+            1=1
+            <if test="tableName != null" >
+                and table_name = #{tableName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>

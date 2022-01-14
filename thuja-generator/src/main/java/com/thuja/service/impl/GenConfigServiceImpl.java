@@ -15,6 +15,7 @@
  */
 package com.thuja.service.impl;
 
+import com.thuja.mapper.GenConfigMapper;
 import com.thuja.model.GenConfig;
 import com.thuja.service.GenConfigService;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GenConfigServiceImpl implements GenConfigService {
 
+    private final GenConfigMapper genConfigMapper;
 
     @Override
     public GenConfig find(String tableName) {
-
-
-        return new GenConfig();
+        GenConfig genConfig = genConfigMapper.findByTableName(tableName);
+        if(genConfig == null){
+            return new GenConfig(tableName);
+        }
+        return genConfig;
     }
 
 

@@ -21,8 +21,48 @@
         from information_schema.columns
         <where>
             table_schema='thuja'
-            <if test="tableName != null" >
+            <if test="tableName != null and tableName.length() > 0" >
                 and TABLE_NAME = #{tableName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findMaxByTableName" resultType="long">
+        select
+        count(1)
+        from information_schema.columns
+        <where>
+            table_schema='thuja'
+            <if test="tableName != null and tableName.length() > 0" >
+                and TABLE_NAME = #{tableName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findTablesByAttributes" resultMap="ColumnInfoMap">
+        select
+        table_name ,create_time , engine, table_collation, table_comment
+        from information_schema.tables
+        <where>
+            where table_schema = (select database())
+            <if test="tableName != null and tableName.length() > 0" >
+                and table_name like CONCAT('%',#{tableName},'%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
+    <select id="findTablesMaxByAttributes" resultType="long">
+        select
+        count(1)
+        from information_schema.tables
+        <where>
+            where table_schema = (select database())
+            <if test="tableName != null and tableName.length() > 0" >
+                and table_name like CONCAT('%',#{tableName},'%')
             </if>
         </where>
     </select>

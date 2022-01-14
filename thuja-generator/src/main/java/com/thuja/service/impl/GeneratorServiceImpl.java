@@ -3,6 +3,7 @@ package com.thuja.service.impl;
 import com.thuja.mapper.ColumnInfoMappper;
 import com.thuja.model.ColumnInfo;
 import com.thuja.model.GenConfig;
+import com.thuja.model.TableInfo;
 import com.thuja.service.GeneratorService;
 import com.thuja.util.GenUtil;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,11 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Override
     public List<ColumnInfo> getColumns(String name) {
         return columnInfoMappper.findByTableName(name);
+    }
+
+    @Override
+    public List<TableInfo> findTablesByAttributes(Long pageIndex, Long pageSize, String name) {
+        return columnInfoMappper.findTablesByAttributes(pageIndex,pageSize,name);
     }
 
 

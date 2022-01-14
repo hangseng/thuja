@@ -2,6 +2,7 @@ package com.thuja.service;
 
 import com.thuja.model.ColumnInfo;
 import com.thuja.model.GenConfig;
+import com.thuja.model.TableInfo;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface GeneratorService {
 
 
     List<ColumnInfo> getColumns(String name);
+
+    List<TableInfo> findTablesByAttributes(Long pageIndex,Long pageSize,String name);
 }
