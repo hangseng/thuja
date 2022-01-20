@@ -21,6 +21,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <hutool.version>5.3.4</hutool.version>
+        <jwt.version>0.10.7</jwt.version>
     </properties>
 
     <!-- spring boot项目 -->
@@ -153,6 +154,15 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>

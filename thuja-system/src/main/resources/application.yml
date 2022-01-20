@@ -1,7 +1,7 @@
 server:
   port: 9003
   servlet:
-    context-path: /codeTool
+    context-path: /thuja
   #nio的web服务配置
   undertow:
     #为工作者创建的I/O线程数
