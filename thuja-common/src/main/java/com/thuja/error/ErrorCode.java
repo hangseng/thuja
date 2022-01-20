@@ -24,9 +24,7 @@ public enum ErrorCode {
     ERROR_NO_RIGHT(-14, "权限不足"),
     ERROR_NOT_AVAILABLE(-15, "服务暂不可用"),
     ERROR_USER_DISABLED(-16, "当前用户已禁用"),
-    ERROR_IP_NOT_RIGHT(-17, "访问IP无权限"),
-    ERROR_IMPORT_ERROR(-20, "档案导入失败"),
-    ERROR_EXPORT_ERROR(-21, "档案导出失败");
+    ERROR_IP_NOT_RIGHT(-17, "访问IP无权限");
     private Integer error;
     private String description;
 
