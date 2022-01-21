@@ -13,19 +13,17 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.thuja.exception;
+package com.thuja.modules.system.service.dto;
 
-import org.springframework.util.StringUtils;
+import lombok.Data;
+
+import java.io.Serializable;
 
 
-public class EntityNotFoundException extends RuntimeException {
+@Data
+public class DeptSmallDto implements Serializable {
 
-    public EntityNotFoundException(Class clazz, String field, String val) {
-        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), field, val));
-    }
+    private Long id;
 
-    private static String generateMessage(String entity, String field, String val) {
-        return StringUtils.capitalize(entity)
-                + " with " + field + " "+ val + " does not exist";
-    }
+    private String name;
 }

@@ -11,7 +11,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  **/
 @SpringBootApplication
 @ServletComponentScan
-@MapperScan("com.thuja.mapper")
+//@MapperScan("com.thuja.mapper")
 public class AppRun {
     public static void main(String[] args) {
         SpringApplication.run(AppRun.class,args);

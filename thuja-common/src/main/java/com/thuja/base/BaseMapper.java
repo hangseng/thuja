@@ -13,19 +13,41 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.thuja.exception;
+package com.thuja.base;
 
-import org.springframework.util.StringUtils;
+import java.util.List;
 
+/**
+ * @author Zheng Jie
+ * @date 2018-11-23
+ */
+public interface BaseMapper<D, E> {
 
-public class EntityNotFoundException extends RuntimeException {
+    /**
+     * DTO转Entity
+     * @param dto /
+     * @return /
+     */
+    E toEntity(D dto);
 
-    public EntityNotFoundException(Class clazz, String field, String val) {
-        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), field, val));
-    }
+    /**
+     * Entity转DTO
+     * @param entity /
+     * @return /
+     */
+    D toDto(E entity);
 
-    private static String generateMessage(String entity, String field, String val) {
-        return StringUtils.capitalize(entity)
-                + " with " + field + " "+ val + " does not exist";
-    }
+    /**
+     * DTO集合转Entity集合
+     * @param dtoList /
+     * @return /
+     */
+    List <E> toEntity(List<D> dtoList);
+
+    /**
+     * Entity集合转DTO集合
+     * @param entityList /
+     * @return /
+     */
+    List <D> toDto(List<E> entityList);
 }

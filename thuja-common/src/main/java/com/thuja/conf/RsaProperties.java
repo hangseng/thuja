@@ -13,19 +13,25 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.thuja.exception;
+package com.thuja.conf;
 
-import org.springframework.util.StringUtils;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+/**
+ * @author WangHengSheng
+ * @description
+ * @date 2020-05-18
+ **/
+@Data
+@Component
+public class RsaProperties {
 
-public class EntityNotFoundException extends RuntimeException {
+    public static String privateKey;
 
-    public EntityNotFoundException(Class clazz, String field, String val) {
-        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), field, val));
-    }
-
-    private static String generateMessage(String entity, String field, String val) {
-        return StringUtils.capitalize(entity)
-                + " with " + field + " "+ val + " does not exist";
+    @Value("${rsa.private_key}")
+    public void setPrivateKey(String privateKey) {
+        RsaProperties.privateKey = privateKey;
     }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thuja.modules.system.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.thuja.modules.system.service.dto.UserDto" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="avatarName" property="avatarName" jdbcType="VARCHAR" />
+    <result column="avatarPath" property="avatarPath" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="TINYINT" />
+    <result column="isAdmin" property="isAdmin" jdbcType="TINYINT" />
+    <result column="pwdResetTime" property="pwdResetTime" jdbcType="TIMESTAMP" />
+    <result column="createBy" property="createBy" jdbcType="VARCHAR" />
+    <result column="updateBy" property="updateBy" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <association property="dept" resultMap="DeptResultMap"/>
+    <collection property="roles" resultMap="RolesResultMap"/>
+    <collection property="jobs" resultMap="JobsResultMap"/>
+  </resultMap>
+  <resultMap id="RolesResultMap" type="com.thuja.modules.system.service.dto.RoleSmallDto" >
+    <id column="r_id" property="id" jdbcType="VARCHAR" />
+    <result column="r_name" property="name" jdbcType="VARCHAR" />
+    <result column="r_level" property="level" jdbcType="INTEGER" />
+    <result column="r_dataScope" property="dataScope" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="JobsResultMap" type="com.thuja.modules.system.service.dto.JobSmallDto" >
+    <id column="j_id" property="id" jdbcType="VARCHAR" />
+    <result column="j_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="DeptResultMap" type="com.thuja.modules.system.service.dto.DeptSmallDto" >
+    <id column="d_id" property="id" jdbcType="VARCHAR" />
+    <result column="d_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 单表开启二级缓存:配置之后该mapper下的所有的查询语句都会走缓存 -->
+  <cache flushInterval="60000" size="512" readOnly="false" eviction="FIFO" />
+  <sql id="Base_Column_List" >
+    user_id as id,dept_id,username,nick_name as nickName,gender,phone,email,avatar_name as avatarName,avatar_path as avatarPath,password as password,is_admin as isAdmin,
+    enabled,create_by as createBy,update_by as updateBy,pwd_reset_time as pwdResetTime,create_time as createTime,update_time as updateTime
+  </sql>
+  <select id="findByUsername" resultMap="BaseResultMap">
+    select a.user_id as id,a.dept_id as dept_id,a.username as username,a.nick_name as nickName,
+    a.gender as gender,a.phone as phone,a.email as email,a.avatar_name as avatarName,
+    a.avatar_path as avatarPath,a.password as password,a.is_admin as isAdmin,a.enabled as enabled,
+    a.create_by as createBy,a.update_by as updateBy,a.pwd_reset_time as pwdResetTime,a.create_time as createTime,
+    a.update_time as updateTime,
+    r.role_id as r_id,r.name as r_name,r.level as r_level,r.data_Scope as r_dataScope,
+    j.job_id as j_id,j.name as j_name,
+    d.dept_id as d_id,d.name as d_name
+    from sys_user a
+    left join (SELECT sys_users_roles.user_id as user_id,sys_users_roles.role_id as role_id,sys_role.name as name,sys_role.level as level,sys_role.data_scope as data_scope FROM `sys_users_roles` INNER JOIN sys_role on sys_users_roles.role_id = sys_role.role_id)r on a.user_id = r.user_id
+    left join (SELECT sys_users_jobs.user_id as user_id,sys_users_jobs.job_id as job_id,sys_job.name as name FROM `sys_users_jobs` INNER JOIN sys_job on sys_users_jobs.job_id = sys_job.job_id)j on a.user_id = j.user_id
+    left join (SELECT sys_roles_depts.role_id as role_id,sys_roles_depts.dept_id as dept_id,sys_dept.name as name FROM `sys_roles_depts` INNER JOIN sys_dept on sys_roles_depts.dept_id = sys_dept.dept_id)d on r.role_id = d.role_id
+    where 1=1
+    <if test="username != null and username.length() > 0">
+      a.username = #{username,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

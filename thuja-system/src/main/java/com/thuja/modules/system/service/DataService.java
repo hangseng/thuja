@@ -13,19 +13,25 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.thuja.exception;
-
-import org.springframework.util.StringUtils;
+package com.thuja.modules.system.service;
 
 
-public class EntityNotFoundException extends RuntimeException {
 
-    public EntityNotFoundException(Class clazz, String field, String val) {
-        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), field, val));
-    }
+import com.thuja.modules.system.service.dto.UserDto;
 
-    private static String generateMessage(String entity, String field, String val) {
-        return StringUtils.capitalize(entity)
-                + " with " + field + " "+ val + " does not exist";
-    }
+import java.util.List;
+
+/**
+ * 数据权限服务类
+ * @author Zheng Jie
+ * @date 2020-05-07
+ */
+public interface DataService {
+
+    /**
+     * 获取数据权限
+     * @param user /
+     * @return /
+     */
+    List<Long> getDeptIds(UserDto user);
 }
