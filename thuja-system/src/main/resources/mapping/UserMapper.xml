@@ -56,8 +56,8 @@
     left join (SELECT sys_users_jobs.user_id as user_id,sys_users_jobs.job_id as job_id,sys_job.name as name FROM `sys_users_jobs` INNER JOIN sys_job on sys_users_jobs.job_id = sys_job.job_id)j on a.user_id = j.user_id
     left join (SELECT sys_roles_depts.role_id as role_id,sys_roles_depts.dept_id as dept_id,sys_dept.name as name FROM `sys_roles_depts` INNER JOIN sys_dept on sys_roles_depts.dept_id = sys_dept.dept_id)d on r.role_id = d.role_id
     where 1=1
-    <if test="username != null and username.length() > 0">
-      a.username = #{username,jdbcType=VARCHAR}
+    <if test="userName != null and userName.length() > 0">
+      and a.username = #{userName,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>

@@ -30,14 +30,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author /
@@ -86,9 +90,7 @@ public class TokenProvider implements InitializingBean {
                 .setId(IdUtil.simpleUUID())
                 .setIssuer("thuja")
                 .setIssuedAt(createdDate)
-                .setSubject(authentication.getName())
                 .claim(ROLE_CLAIMS, String.join(",", jwtUserDto.getRoles()))
-                .claim(AUTHORITIES_KEY, authentication.getName())
                 .setSubject(authentication.getName())
                 .setExpiration(expirationDate)
                 .compact();
@@ -100,10 +102,17 @@ public class TokenProvider implements InitializingBean {
      * @param token /
      * @return /
      */
-    Authentication getAuthentication(String token) {
+    public UsernamePasswordAuthenticationToken getAuthentication(String token) {
         Claims claims = getClaims(token);
-        User principal = new User(claims.getSubject(), "******", new ArrayList<>());
-        return new UsernamePasswordAuthenticationToken(principal, token, new ArrayList<>());
+        List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
+        String userName = claims.getSubject();
+        return new UsernamePasswordAuthenticationToken(userName, token, authorities);
+    }
+    private static List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
+        String role = (String) claims.get(SecurityConstants.ROLE_CLAIMS);
+        return Arrays.stream(role.split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public Claims getClaims(String token) {

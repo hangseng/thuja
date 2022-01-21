@@ -40,6 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final StringRedisTemplate stringRedisTemplate;
     private final ApplicationContext applicationContext;
+    private final TokenProvider tokenProvider;
 
     /**
      * 密码编码器
@@ -100,7 +101,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 //添加自定义Filter
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), stringRedisTemplate))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), stringRedisTemplate,tokenProvider))
                 // 不需要session（不创建会话）
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 授权异常处理
