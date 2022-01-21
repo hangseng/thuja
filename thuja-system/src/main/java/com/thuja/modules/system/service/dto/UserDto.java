@@ -25,6 +25,8 @@ public class UserDto extends BaseDTO implements Serializable {
 
     private Set<JobSmallDto> jobs;
 
+    private Set<MenuSmallDto> menus;
+
     private DeptSmallDto dept;
 
     private Long deptId;

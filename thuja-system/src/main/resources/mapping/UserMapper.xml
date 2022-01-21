@@ -21,6 +21,7 @@
     <association property="dept" resultMap="DeptResultMap"/>
     <collection property="roles" resultMap="RolesResultMap"/>
     <collection property="jobs" resultMap="JobsResultMap"/>
+    <collection property="menus" resultMap="MenusResultMap"/>
   </resultMap>
   <resultMap id="RolesResultMap" type="com.thuja.modules.system.service.dto.RoleSmallDto" >
     <id column="r_id" property="id" jdbcType="VARCHAR" />
@@ -29,12 +30,17 @@
     <result column="r_dataScope" property="dataScope" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="JobsResultMap" type="com.thuja.modules.system.service.dto.JobSmallDto" >
-    <id column="j_id" property="id" jdbcType="VARCHAR" />
+    <id column="j_id" property="id" jdbcType="BIGINT" />
     <result column="j_name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="DeptResultMap" type="com.thuja.modules.system.service.dto.DeptSmallDto" >
-    <id column="d_id" property="id" jdbcType="VARCHAR" />
+    <id column="d_id" property="id" jdbcType="BIGINT" />
     <result column="d_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="MenusResultMap" type="com.thuja.modules.system.service.dto.MenuSmallDto" >
+    <id column="m_id" property="id" jdbcType="BIGINT" />
+    <result column="m_name" property="name" jdbcType="VARCHAR" />
+    <result column="m_permission" property="permission" jdbcType="VARCHAR" />
   </resultMap>
   <!-- 单表开启二级缓存:配置之后该mapper下的所有的查询语句都会走缓存 -->
   <cache flushInterval="60000" size="512" readOnly="false" eviction="FIFO" />
@@ -50,11 +56,15 @@
     a.update_time as updateTime,
     r.role_id as r_id,r.name as r_name,r.level as r_level,r.data_Scope as r_dataScope,
     j.job_id as j_id,j.name as j_name,
-    d.dept_id as d_id,d.name as d_name
+    d.dept_id as d_id,d.name as d_name,
+    m.menu_id AS m_id,
+    m.NAME AS m_name,
+    m.permission AS m_permission
     from sys_user a
     left join (SELECT sys_users_roles.user_id as user_id,sys_users_roles.role_id as role_id,sys_role.name as name,sys_role.level as level,sys_role.data_scope as data_scope FROM `sys_users_roles` INNER JOIN sys_role on sys_users_roles.role_id = sys_role.role_id)r on a.user_id = r.user_id
     left join (SELECT sys_users_jobs.user_id as user_id,sys_users_jobs.job_id as job_id,sys_job.name as name FROM `sys_users_jobs` INNER JOIN sys_job on sys_users_jobs.job_id = sys_job.job_id)j on a.user_id = j.user_id
     left join (SELECT sys_roles_depts.role_id as role_id,sys_roles_depts.dept_id as dept_id,sys_dept.name as name FROM `sys_roles_depts` INNER JOIN sys_dept on sys_roles_depts.dept_id = sys_dept.dept_id)d on r.role_id = d.role_id
+    left join (SELECT sys_roles_menus.role_id AS role_id,sys_roles_menus.menu_id AS menu_id,sys_menu.name AS NAME,sys_menu.permission as permission FROM `sys_roles_menus`INNER JOIN sys_menu ON sys_roles_menus.menu_id = sys_menu.menu_id where sys_menu.permission is not  null) m ON r.role_id = m.role_id
     where 1=1
     <if test="userName != null and userName.length() > 0">
       and a.username = #{userName,jdbcType=VARCHAR}
