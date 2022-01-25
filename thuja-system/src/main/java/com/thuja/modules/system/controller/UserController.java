@@ -20,7 +20,7 @@ public class UserController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('roles:list')")
+    @PreAuthorize("@el.check('admin')")
     @ApiOperation("获取所有用户的信息")
     public ReturnValue<Object> getAllUser() {
         return new ReturnValue();

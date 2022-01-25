@@ -44,8 +44,13 @@ public class JwtUserDto implements UserDetails {
     private final List<SimpleGrantedAuthority> authorities;
     public JwtUserDto(UserDto user){
         this.user = user;
-        Set<MenuSmallDto> menus = user.getMenus();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        if (user.getIsAdmin()){
+            authorities.add(new SimpleGrantedAuthority("admin"));
+            this.authorities = authorities;
+            return;
+        }
+        Set<MenuSmallDto> menus = user.getMenus();
         List<MenuSmallDto> noNullMenus = menus.stream().filter(Objects::nonNull).filter(s -> !s.getPermission().equals("")).collect(Collectors.toList());
         noNullMenus.forEach(ele -> authorities.add(new SimpleGrantedAuthority(ele.getPermission())) );
         this.authorities = authorities;

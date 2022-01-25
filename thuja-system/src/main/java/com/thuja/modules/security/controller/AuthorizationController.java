@@ -87,7 +87,7 @@ public class AuthorizationController {
         // 返回 token 与 用户信息
         Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
             put("token", properties.getTokenStartWith() + token);
-            put("user", jwtUserDto);
+            put("user", jwtUserDto.getUser());
         }};
 //        if (loginProperties.isSingleLogin()) {
 //            //踢掉之前已经登录的token
