@@ -16,6 +16,7 @@
 package com.thuja.modules.security.service.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.thuja.modules.system.service.dto.MenuSmallDto;
 import com.thuja.modules.system.service.dto.RoleSmallDto;
 import com.thuja.modules.system.service.dto.UserDto;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,9 +44,10 @@ public class JwtUserDto implements UserDetails {
     private final List<SimpleGrantedAuthority> authorities;
     public JwtUserDto(UserDto user){
         this.user = user;
-        Set<RoleSmallDto> roles = user.getRoles();
+        Set<MenuSmallDto> menus = user.getMenus();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())) );
+        List<MenuSmallDto> noNullMenus = menus.stream().filter(Objects::nonNull).filter(s -> !s.getPermission().equals("")).collect(Collectors.toList());
+        noNullMenus.forEach(ele -> authorities.add(new SimpleGrantedAuthority(ele.getPermission())) );
         this.authorities = authorities;
     }
 

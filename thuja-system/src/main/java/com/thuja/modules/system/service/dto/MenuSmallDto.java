@@ -1,12 +1,10 @@
 
 package com.thuja.modules.system.service.dto;
 
-import com.thuja.base.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 

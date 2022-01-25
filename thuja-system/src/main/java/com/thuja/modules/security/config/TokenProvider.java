@@ -84,13 +84,14 @@ public class TokenProvider implements InitializingBean {
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+        List<String> roles = jwtUserDto.getAuthorities().stream().map(s -> "ROLE_" + s.getAuthority()).collect(Collectors.toList());
         return jwtBuilder
                 .setHeaderParam("type", "JWT")
                 // 加入ID确保生成的 Token 都不一致
                 .setId(IdUtil.simpleUUID())
                 .setIssuer("thuja")
                 .setIssuedAt(createdDate)
-                .claim(ROLE_CLAIMS, String.join(",", jwtUserDto.getRoles()))
+                .claim(ROLE_CLAIMS, String.join(",", roles))
                 .setSubject(authentication.getName())
                 .setExpiration(expirationDate)
                 .compact();
