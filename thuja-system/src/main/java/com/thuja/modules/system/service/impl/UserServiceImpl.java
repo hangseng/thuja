@@ -46,13 +46,14 @@ public class UserServiceImpl implements UserService {
 
 
     private final UserMapper userMapper;
-
-    private final RedisUtils redisUtils;
+//
+//    private final RedisUtils redisUtils;
 
 
     @Override
     public UserDto findById(long id) {
-        return null;
+        //UserDto userDto = userMapper.findByUsername(userName);
+        return  null;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByName(String userName) {
-        UserDto userDto = userMapper.findByUsername(userName);
+        UserDto userDto = userMapper.findByName(userName);
         if (userDto == null) {
             throw new EntityNotFoundException(User.class, "name", userName);
         } else {

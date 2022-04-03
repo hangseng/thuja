@@ -12,4 +12,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
     UserDto findByUsername(@Param("userName")String userName);
+
+    UserDto findByName(@Param("username")String username);
 }

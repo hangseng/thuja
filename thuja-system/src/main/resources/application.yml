@@ -11,6 +11,13 @@ server:
     #访问日志
     accesslog:
       enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:*
+
 spring:
   application:
     name: ansen

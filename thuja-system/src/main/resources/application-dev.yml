@@ -46,6 +46,10 @@ spring:
       filters: stat
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
+# IP 本地解析
+ip:
+  local-parsing: true
+
 #是否开启 swagger-ui
 swagger:
   enabled: true

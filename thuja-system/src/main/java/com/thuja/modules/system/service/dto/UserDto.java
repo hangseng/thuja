@@ -54,4 +54,11 @@ public class UserDto extends BaseDTO implements Serializable {
     private Boolean isAdmin = false;
 
     private Date pwdResetTime;
+
+    private String user_id;
+    private String dept_id;
+    private String nick_name;
+    private String avatar_name;
+
+
 }
