@@ -74,6 +74,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 //直接放行
                 .antMatchers("/api/users/**").permitAll()
+                .antMatchers("/api/logs/**").permitAll()
                 // swagger 文档
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
@@ -120,8 +121,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         org.springframework.web.cors.CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(singletonList("*"));
-        // configuration.setAllowedOriginPatterns(singletonList("*"));
+        //configuration.setAllowedOrigins(singletonList("*"));
+        //configuration.setAllowedOriginPatterns(singletonList("*"));
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.setAllowedHeaders(singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
         configuration.setExposedHeaders(singletonList("Authorization"));

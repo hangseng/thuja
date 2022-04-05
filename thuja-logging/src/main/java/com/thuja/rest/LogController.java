@@ -45,9 +45,10 @@ public class LogController {
         criteria.setLogType("ERROR");
         logService.download(logService.queryAll(criteria), response);
     }
-    @GetMapping
+    @GetMapping("/queryLog")
     @ApiOperation("日志查询")
-    @PreAuthorize("@el.check()")
+    //@CrossOrigin(origins = "http://localhost:3001")
+    //@PreAuthorize("@el.check()")
     public ResponseEntity<Object> queryLog(LogQueryCriteria criteria, Pageable pageable){
         criteria.setLogType("INFO");
         return new ResponseEntity<>(logService.queryAll(criteria,pageable), HttpStatus.OK);
